@@ -11,6 +11,8 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Abstractions
 
         List<Expression<Func<T,object>>> SortOrder { get; set; }
 
+        List<Expression<Func<T, object>>> Includes { get; set; }
+
         int Skip { get; set; }
 
         int Take { get; set; }

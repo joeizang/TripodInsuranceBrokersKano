@@ -15,7 +15,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Abstractions
 
         void Delete(T entity);
 
-        T Get(List<Expression<Func<T, bool>>> predicates);
+        T Get(ISpecification<T> spec);
 
         List<T> GetAll(ISpecification<T> spec);
 

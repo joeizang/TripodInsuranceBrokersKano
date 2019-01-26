@@ -41,11 +41,14 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
                 .SetValue(entity.Deleted, true);
         }
 
-        public T Get(List<Expression<Func<T, bool>>> predicates)
+        public T Get(ISpecification<T> spec)
         {
             object result = null;
 
-            foreach (var p in predicates)
+
+            spec.Includes.ForEach(i => _set.Include(i));
+
+            foreach (var p in spec.Predicates)
             {
                 result = _set.AsNoTracking().SingleOrDefault(p);
             }
@@ -60,7 +63,14 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
 
         public IQueryable<T> Query(ISpecification<T> spec)
         {
-            throw new NotImplementedException();
+            var query = _set;
+
+            spec.Includes.ForEach(i => query.Include(i));
+            spec.Predicates.ForEach(p =>
+            {
+                query.Where(p);
+            });
+            return query;
         }
 
         public int Commit()
