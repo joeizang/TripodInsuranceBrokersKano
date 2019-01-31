@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EntityTypeConfigurations\" />
     <Folder Include="DataService\" />
     <Folder Include="Specifications\" />
   </ItemGroup>

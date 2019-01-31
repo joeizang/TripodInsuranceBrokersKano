@@ -58,7 +58,8 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
 
         public List<T> GetAll(ISpecification<T> spec)
         {
-            throw new NotImplementedException();
+            var result = Query(spec).AsNoTracking().ToList();
+            return result;
         }
 
         public IQueryable<T> Query(ISpecification<T> spec)
@@ -75,7 +76,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
 
         public int Commit()
         {
-            throw new NotImplementedException();
+            return _context.SaveChanges();
         }
     }
 }

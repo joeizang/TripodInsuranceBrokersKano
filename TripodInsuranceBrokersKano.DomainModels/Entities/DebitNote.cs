@@ -7,6 +7,8 @@ namespace TripodInsuranceBrokersKano.DomainModels.Entities
 {
     public class DebitNote : BaseEntity
     {
+        public string DebitNoteNumber { get; set; }
+
         public Client Client { get; set; }
 
         public int ClientId { get; set; }
@@ -15,9 +17,7 @@ namespace TripodInsuranceBrokersKano.DomainModels.Entities
 
         public int PolicyId { get; set; }
 
-        public Insurer Insurer { get; set; }
-
-        public int InsurerId { get; set; }
+        public List<Insurer> Insurers { get; set; }
 
         public decimal Commission { get; set; }
 

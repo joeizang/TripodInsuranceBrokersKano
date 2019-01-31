@@ -8,6 +8,5 @@ namespace TripodInsuranceBrokersKano.DomainModels.Entities
 
         public double Commission { get; set; }
 
-
     }
 }

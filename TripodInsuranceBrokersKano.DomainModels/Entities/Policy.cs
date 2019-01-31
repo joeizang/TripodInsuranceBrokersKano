@@ -37,6 +37,14 @@ namespace TripodInsuranceBrokersKano.DomainModels.Entities
 
         public ICollection<Insurer> Insurers { get; set; }
 
+        private void CalculateNetPolicyValuation()
+        {
+            if (GrossPolicyValuation > 0m)
+            {
+                NetPolicyValuation = 0.8m * GrossPolicyValuation;
+            }
+        }
+
 
 
     }
