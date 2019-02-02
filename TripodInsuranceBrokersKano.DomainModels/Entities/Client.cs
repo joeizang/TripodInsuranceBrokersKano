@@ -13,7 +13,11 @@ namespace TripodInsuranceBrokersKano.DomainModels.Entities
 
         public string ContactPerson { get; set; }
 
-        public List<Address> ClientAddresses { get; set; }
+        public Address ClientAddress { get; set; }
+
+        public Address OtherAddress { get; set; }
+
+        public string EmailAddress { get; set; }
 
         public bool Insured { get; set; }
 
@@ -21,6 +25,9 @@ namespace TripodInsuranceBrokersKano.DomainModels.Entities
 
         public List<Policy> Policies { get; set; }
 
+        public DebitNote DebitNote { get; set; }
+
+        public int DebitNoteId { get; set; }
 
     }
 }

@@ -14,11 +14,15 @@ namespace TripodInsuranceBrokersKano.Infrastructure.EntityTypeConfigurations
             builder.HasMany(d => d.Insurers)
                 .WithOne();
 
-            builder.HasOne(d => d.Policy)
-                .WithOne();
-
             builder.HasOne(d => d.Client)
-                .WithOne();
+                .WithOne()
+                .HasForeignKey<DebitNote>(d => d.ClientId)
+                .IsRequired();
+
+            builder.HasOne(d => d.Policy)
+                .WithOne()
+                .HasForeignKey<DebitNote>(d => d.PolicyId)
+                .IsRequired();
 
             builder.Property(d => d.DebitNoteNumber)
                 .HasMaxLength(10)

@@ -24,14 +24,12 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Client>()
-                .OwnsMany(c => c.ClientAddresses);
-
             modelBuilder.Entity<Insurer>()
                 .OwnsOne(i => i.Address);
 
             modelBuilder.Entity<Insurer>()
                 .OwnsOne(i => i.PhoneNumbers);
+
 
             modelBuilder.ApplyConfiguration(new PolicyTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ClientTypeConfiguration());
@@ -39,6 +37,21 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Context
             modelBuilder.ApplyConfiguration(new PolicyTypeTypeConfiguration());
             modelBuilder.ApplyConfiguration(new DebitNoteTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CreditNoteTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new RecieptTypeConfiguration());
         }
+
+        public DbSet<Policy> Policies { get; set; }
+
+        public DbSet<DebitNote> DebitNotes { get; set; }
+
+        public DbSet<CreditNote> CreditNotes { get; set; }
+
+        public DbSet<Insurer> Insurers { get; set; }
+
+        public DbSet<Client> Clients { get; set; }
+
+        public DbSet<PolicyType> PolicyTypes { get; set; }
+
+        public DbSet<Receipt> Receipts { get; set; }
     }
 }

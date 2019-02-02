@@ -13,7 +13,7 @@ namespace TripodInsuranceBrokersKano.DomainModels.Entities
 
         public Client Insured { get; set; }
 
-        public int Client { get; set; }
+        public int InsuredId { get; set; }
 
         public ICollection<Policy> Policies { get; set; }
 

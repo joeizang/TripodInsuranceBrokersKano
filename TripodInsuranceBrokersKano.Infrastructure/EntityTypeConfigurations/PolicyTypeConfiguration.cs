@@ -28,7 +28,8 @@ namespace TripodInsuranceBrokersKano.Infrastructure.EntityTypeConfigurations
 
             builder.HasOne(p => p.Insured)
                 .WithMany(c => c.Policies)
-                .HasForeignKey(p => p.InsuredId);
+                .HasForeignKey(p => p.InsuredId)
+                .IsRequired();
 
             builder.Property(p => p.Description)
                 .HasMaxLength(2000);
@@ -37,7 +38,8 @@ namespace TripodInsuranceBrokersKano.Infrastructure.EntityTypeConfigurations
                 .WithOne();
 
             builder.HasOne(p => p.PolicyType)
-                .WithOne();
+                .WithOne()
+                .HasForeignKey<Policy>(p => p.PolicyTypeId);
         }
     }
 }

@@ -19,7 +19,9 @@ namespace TripodInsuranceBrokersKano.Infrastructure.EntityTypeConfigurations
                 .WithOne();
 
             builder.HasOne(c => c.Insured)
-                .WithOne();
+                .WithOne()
+                .HasForeignKey<CreditNote>(c => c.InsuredId)
+                .IsRequired();
 
             builder.HasMany(c => c.Policies)
                 .WithOne();
