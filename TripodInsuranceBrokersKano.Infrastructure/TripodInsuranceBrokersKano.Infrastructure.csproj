@@ -25,7 +25,13 @@
 
   <ItemGroup>
     <Folder Include="DataService\" />
-    <Folder Include="Specifications\" />
+    <Folder Include="Specifications\ClientSpecs\" />
+    <Folder Include="Specifications\InsurerSpecs\" />
+    <Folder Include="Specifications\DebitNoteSpecs\" />
+    <Folder Include="Specifications\CreditNoteSpecs\" />
+    <Folder Include="Specifications\PolicyTypeSpecs\" />
+    <Folder Include="Specifications\ReceiptSpecs\" />
+    <Folder Include="Specifications\PolicySpecs\" />
   </ItemGroup>
 
 </Project>

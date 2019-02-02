@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TripodInsuranceBrokersKano.Infrastructure.Context;
@@ -9,9 +10,10 @@ using TripodInsuranceBrokersKano.Infrastructure.Context;
 namespace TripodInsuranceBrokersKano.Infrastructure.Migrations
 {
     [DbContext(typeof(TripodContext))]
-    partial class TripodContextModelSnapshot : ModelSnapshot
+    [Migration("20190202125927_DebitNoteClientPolicyRelate")]
+    partial class DebitNoteClientPolicyRelate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

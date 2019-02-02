@@ -25,9 +25,5 @@ namespace TripodInsuranceBrokersKano.DomainModels.Entities
 
         public List<Policy> Policies { get; set; }
 
-        public DebitNote DebitNote { get; set; }
-
-        public int DebitNoteId { get; set; }
-
     }
 }

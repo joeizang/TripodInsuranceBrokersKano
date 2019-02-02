@@ -37,10 +37,6 @@ namespace TripodInsuranceBrokersKano.DomainModels.Entities
 
         public ICollection<Insurer> Insurers { get; set; }
 
-        public DebitNote DebitNote { get; set; }
-
-        public int DebitNoteId { get; set; }
-
         private void CalculateNetPolicyValuation()
         {
             if (GrossPolicyValuation > 0m)
