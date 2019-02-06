@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.EntityTypeConfigurations;
+using TripodInsuranceBrokersKano.Infrastructure.IdentityModels;
 
 namespace TripodInsuranceBrokersKano.Infrastructure.Context
 {
-    public class TripodContext : DbContext
+    public class TripodContext : IdentityDbContext<ApplicationUser,ApplicationRole,int>
     {
         public TripodContext(DbContextOptions<TripodContext> options) : base(options)
         {
