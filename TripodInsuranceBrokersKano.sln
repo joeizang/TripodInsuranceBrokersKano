@@ -14,7 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripodInsuranceBrokersKano.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripodInsuranceBrokersKano.Tests", "TripodInsuranceBrokersKano.Tests\TripodInsuranceBrokersKano.Tests.csproj", "{2D7F4F48-FB6D-4E68-86DA-58A971AFDF04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripodInsuranceBrokersKano.Api", "src\TripodInsuranceBrokersKano.Api\TripodInsuranceBrokersKano.Api.csproj", "{036A94F0-D658-49A0-8E61-DE5A597220E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripodInsuranceBrokersKano.IDP", "TripodInsuranceBrokersKano.IDP\TripodInsuranceBrokersKano.IDP.csproj", "{F6C107C8-3412-4717-82A2-A53D68CFB9C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripodInsuranceBrokersKano.Api", "TripodInsuranceBrokersKano.Api\TripodInsuranceBrokersKano.Api.csproj", "{275E0F70-8F65-408B-810A-9D05835ED629}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +36,14 @@ Global
 		{2D7F4F48-FB6D-4E68-86DA-58A971AFDF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D7F4F48-FB6D-4E68-86DA-58A971AFDF04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D7F4F48-FB6D-4E68-86DA-58A971AFDF04}.Release|Any CPU.Build.0 = Release|Any CPU
-		{036A94F0-D658-49A0-8E61-DE5A597220E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{036A94F0-D658-49A0-8E61-DE5A597220E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{036A94F0-D658-49A0-8E61-DE5A597220E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{036A94F0-D658-49A0-8E61-DE5A597220E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6C107C8-3412-4717-82A2-A53D68CFB9C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C107C8-3412-4717-82A2-A53D68CFB9C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C107C8-3412-4717-82A2-A53D68CFB9C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C107C8-3412-4717-82A2-A53D68CFB9C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{275E0F70-8F65-408B-810A-9D05835ED629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{275E0F70-8F65-408B-810A-9D05835ED629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{275E0F70-8F65-408B-810A-9D05835ED629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{275E0F70-8F65-408B-810A-9D05835ED629}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

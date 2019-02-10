@@ -18,7 +18,9 @@ namespace TripodInsuranceBrokersKano.Infrastructure.IdentityServer
             return new List<IdentityResource>()
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResource("roles", new List<string>(){ "roles" })
             };
         }
 
@@ -32,12 +34,21 @@ namespace TripodInsuranceBrokersKano.Infrastructure.IdentityServer
                     ClientId = "TripodOMApp",
                     RedirectUris =
                     {
-                        "https://localhost:44307/signin-oidc"
+                        "https://localhost:44393/signin-oidc"
                     },
-                    
+                    PostLogoutRedirectUris =
+                    {
+                        "https://localhost:44393/signout-callback-oidc"
+                    },
+                    AllowOfflineAccess = true,
+                    RequireConsent = false, //temporary setting for development change to true in production
                     AllowedScopes =
                     {
-                        OidcConstants.StandardScopes.OpenId
+                        OidcConstants.StandardScopes.OpenId,
+                        OidcConstants.StandardScopes.Profile,
+                        OidcConstants.StandardScopes.Email,
+                        "roles",
+                        "tripodinsurancebrokersapi"
                     },
                     AllowedGrantTypes =
                     {
@@ -45,6 +56,15 @@ namespace TripodInsuranceBrokersKano.Infrastructure.IdentityServer
                         OidcConstants.GrantTypes.ClientCredentials
                     }
                 }
+            };
+        }
+
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("tripodinsurancebrokersapi", 
+                    "Tripod Kano Applications Api")
             };
         }
     }
