@@ -10,11 +10,13 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
     public class ClientDataService
     {
         private readonly IRepository<Client> _repo;
+        private ISpecification<Client> _clientSpec;
 
 
-        public ClientDataService(IRepository<Client> repo)
+        public ClientDataService(IRepository<Client> repo, ISpecification<Client> clientSpec)
         {
             _repo = repo;
+            _clientSpec = clientSpec;
         }
 
 
@@ -33,6 +35,12 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
 
             client.GetType().GetProperty(nameof(client.CreatedAt))
                 .SetValue(client,DateTimeOffset.UtcNow);
+        }
+
+        public void UpdateClient(UpdateClientApiModel model)
+        {
+            var targetClient = _repo.Get(_clientSpec);
+            
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using TripodInsuranceBrokersKano.DomainModels.Abstractions;
+using TripodInsuranceBrokersKano.DomainModels.Entities;
 
 namespace TripodInsuranceBrokersKano.Infrastructure.Abstractions
 {
@@ -16,6 +17,10 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Abstractions
         void Delete(T entity);
 
         T Get(ISpecification<T> spec);
+
+        //T Get(Expression<Func<Client,bool>> predicate);
+
+        //T Get(Expression<Func<T, object>> inlcude, Expression<Func<T, bool>> predicate);
 
         List<T> GetAll(ISpecification<T> spec);
 
