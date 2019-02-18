@@ -14,9 +14,11 @@ namespace TripodInsuranceBrokersKano.Infrastructure.AutoMapperProfiles
             CreateMap<Client, UpdateClientApiModel>()
                 .ForMember(dest => dest.TargetClientId,
                     opt => opt.MapFrom(source => source.Id))
+                .ForMember(dest => dest.ContactAddress, opt => 
+                    opt.MapFrom(source => source.OtherAddress))
                 .ReverseMap();
-            CreateMap<Client, DetailClientApiModel>();
-            CreateMap<Client, CreateClientApiModel>().ReverseMap();
+            //CreateMap<Client, DetailClientApiModel>();
+            //CreateMap<Client, CreateClientApiModel>().ReverseMap();
         }
     }
 }

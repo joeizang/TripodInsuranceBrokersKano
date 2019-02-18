@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TripodInsuranceBrokersKano.Api\TripodInsuranceBrokersKano.Api.csproj" />
     <ProjectReference Include="..\TripodInsuranceBrokersKano.DomainModels\TripodInsuranceBrokersKano.DomainModels.csproj" />
     <ProjectReference Include="..\TripodInsuranceBrokersKano.Infrastructure\TripodInsuranceBrokersKano.Infrastructure.csproj" />
   </ItemGroup>
