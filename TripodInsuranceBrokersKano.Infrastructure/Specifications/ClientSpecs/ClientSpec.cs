@@ -24,12 +24,14 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs
         public int Skip { get; set; }
         public int Take { get; set; }
 
-        public void AddPredicate(params Expression<Func<Client, bool>>[] predicates)
+        public ISpecification<Client> AddPredicate(params Expression<Func<Client, bool>>[] predicates)
         {
             foreach (var p in predicates)
             {
                 Predicates.Add(p);
             }
+
+            return this;
         }
     }
 }

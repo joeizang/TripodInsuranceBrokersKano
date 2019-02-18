@@ -18,5 +18,9 @@ namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels
         public string Description { get; set; }
 
         public string EmailAddress { get; set; }
+
+        public bool Insured { get; set; }
+
+
     }
 }

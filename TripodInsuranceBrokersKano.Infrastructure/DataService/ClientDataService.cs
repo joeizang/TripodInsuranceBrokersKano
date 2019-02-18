@@ -1,37 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AutoMapper;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
+using TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs;
 
 namespace TripodInsuranceBrokersKano.Infrastructure.DataService
 {
     public class ClientDataService
     {
         private readonly IRepository<Client> _repo;
-        private ISpecification<Client> _clientSpec;
+        private ClientSpec _clientSpec;
+        private readonly IMapper _mapper;
 
 
-        public ClientDataService(IRepository<Client> repo, ISpecification<Client> clientSpec)
+        public ClientDataService(IRepository<Client> repo, 
+                                 IMapper mapper,
+                                 ClientSpec clientSpec)
         {
             _repo = repo;
             _clientSpec = clientSpec;
+            _mapper = mapper;
         }
 
 
         public void CreateClient(CreateClientApiModel model)
         {
-            var client = new Client
-            {
-                Name = model.ClientName,
-                EmailAddress = model.EmailAddress,
-                ClientAddress = model.ClientAddress,
-                ContactPerson = model.ContactPerson,
-                OtherAddress = model.ContactAddress,
-                Description = model.Description,
-                Insured = false
-            };
+            var client = _mapper.Map<CreateClientApiModel, Client>(model);
 
             client.GetType().GetProperty(nameof(client.CreatedAt))
                 .SetValue(client,DateTimeOffset.UtcNow);
@@ -39,8 +36,9 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
 
         public void UpdateClient(UpdateClientApiModel model)
         {
-            var targetClient = _repo.Get(_clientSpec);
-            
+            var targetClient = _repo.Get(_clientSpec
+                .AddPredicate(x => x.Id == model.TargetClientId));
+            //use automapper to map the apimodel to entity and save it.
         }
     }
 }

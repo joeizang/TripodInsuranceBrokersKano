@@ -11,10 +11,7 @@
   <ItemGroup>
     <Folder Include="ApiModels\CreditNoteApiModels\" />
     <Folder Include="ApiModels\DebitNoteApiModels\" />
-    <Folder Include="ApiModels\InsurerApiModels\" />
     <Folder Include="ApiModels\ReceiptApiModels\" />
-    <Folder Include="ApiModels\PolicyTypeApiModels\" />
-    <Folder Include="ApiModels\PolicyApiModels\" />
   </ItemGroup>
 
 </Project>

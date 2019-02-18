@@ -43,14 +43,14 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
 
         public T Get(ISpecification<T> spec)
         {
-            object result = null;
+            T result = null;
 
 
             spec.Includes?.ForEach(i => _set.Include(i));
 
             spec.Predicates?.ForEach(p => result = _set.AsNoTracking().SingleOrDefault(p));
 
-            return (T)result;
+            return result;
         }
 
         public List<T> GetAll(ISpecification<T> spec)
