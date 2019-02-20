@@ -39,6 +39,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
             var targetClient = _repo.Get(_clientSpec
                 .AddPredicate(x => x.Id == model.TargetClientId));
             //use automapper to map the apimodel to entity and save it.
+            var tclient = _mapper.Map<UpdateClientApiModel, Client>(model);
         }
     }
 }

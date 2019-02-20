@@ -20,5 +20,7 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
             });
             Mapper.AssertConfigurationIsValid();
         }
+
+        
     }
 }
