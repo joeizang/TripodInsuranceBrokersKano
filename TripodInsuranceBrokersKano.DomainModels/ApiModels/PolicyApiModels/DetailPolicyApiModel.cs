@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.InsurerApiModels;
+using TripodInsuranceBrokersKano.DomainModels.ApiModels.PolicyTypeApiModels;
+using TripodInsuranceBrokersKano.DomainModels.Entities;
 
 namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.PolicyApiModels
 {
-    public class CreatePolicyApiModel
+    public class DetailPolicyApiModel
     {
         public string InsurerPolicyNumber { get; set; }
 
         public string InternalPolicyNumber { get; set; }
 
-        public DetailPolicyApiModel PolicyType { get; set; }
+        public DetailPolicyTypeApiModel PolicyType { get; set; }
 
         public int PolicyTypeId { get; set; }
 
@@ -26,7 +27,7 @@ namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.PolicyApiModels
 
         public bool MultiInsurerPolicy { get; set; }
 
-        public DetailClientApiModel Insured { get; set; }
+        public string Insured { get; set; }
 
         public int IndemnityPeriod { get; set; }
 

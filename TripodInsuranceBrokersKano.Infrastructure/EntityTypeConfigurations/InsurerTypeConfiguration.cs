@@ -19,6 +19,8 @@ namespace TripodInsuranceBrokersKano.Infrastructure.EntityTypeConfigurations
                 .HasMaxLength(100)
                 .IsRequired();
 
+            builder.HasIndex(i => i.InsurerName).IsUnique();
+
             builder.Property(i => i.EmailAddress)
                 .HasMaxLength(50)
                 .IsRequired();

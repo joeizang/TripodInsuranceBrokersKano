@@ -32,7 +32,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
 
         public void Update(T entity)
         {
-            _set.Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
         public void Delete(T entity)

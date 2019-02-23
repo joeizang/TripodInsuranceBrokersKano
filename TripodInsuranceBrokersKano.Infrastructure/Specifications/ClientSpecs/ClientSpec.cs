@@ -33,5 +33,23 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs
 
             return this;
         }
+
+        public ISpecification<Client> AddSortOrder(params Expression<Func<Client, object>>[] criteria)
+        {
+            foreach(var c in criteria)
+            {
+                SortOrder.Add(c);
+            }
+            return this;
+        }
+
+        public ISpecification<Client> AddIncludes(params Expression<Func<Client, object>>[] includes)
+        {
+            foreach(var i in includes)
+            {
+                Includes.Add(i);
+            }
+            return this;
+        }
     }
 }

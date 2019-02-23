@@ -1,37 +1,30 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using TripodInsuranceBrokersKano.Infrastructure.AutoMapperProfiles;
 using Xunit;
 
-namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
+namespace TripodInsuranceBrokersKano.Tests.PolicyModuleTests
 {
-    public class ClientAutoMappingTests
+    public class PolicyAutoMappingTests
     {
         public MapperConfiguration Config { get; set; }
 
-
-
-
-        public ClientAutoMappingTests()
+        public PolicyAutoMappingTests()
         {
-            Config = new MapperConfiguration(options =>
+            Config = new MapperConfiguration(conf =>
             {
-                options.AddProfile(typeof(ClientMapperProfile));
+                conf.AddProfile(typeof(PolicyMapperProfile));
             });
         }
 
         [Fact]
-        public void ClientMappingValid()
+        public void PolicyMappingValid()
         {
             var mapper = TestStartup.CreateMapper(Config);
 
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
-
         }
-
-        
     }
 }
