@@ -21,12 +21,12 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
         }
         // GET: api/Clients
         [HttpGet]
-        public ActionResult<DetailClientApiModel> Get()
+        public ActionResult<List<DetailClientApiModel>> Get()
         {
             //make sure that any user that get here is logged in os we know what they is upto.
             //TODO: Handle filtering from clients. Make it generic so you write the code one.
-            var clients
-
+            //var clients
+            return new List<DetailClientApiModel>();
         }
 
         // GET: api/Clients/5

@@ -21,6 +21,9 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Context
             
         }
 
+        public TripodContext(DbContextOptions options) : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

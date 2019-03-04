@@ -18,13 +18,13 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs
             Includes = new List<Expression<Func<Client, object>>>();
         }
 
-        public List<Expression<Func<Client, bool>>> Predicates { get; set; }
-        public List<Expression<Func<Client, object>>> SortOrder { get; set; }
-        public List<Expression<Func<Client, object>>> Includes { get; set; }
+        public virtual List<Expression<Func<Client, bool>>> Predicates { get; set; }
+        public virtual List<Expression<Func<Client, object>>> SortOrder { get; set; }
+        public virtual List<Expression<Func<Client, object>>> Includes { get; set; }
         public int Skip { get; set; }
         public int Take { get; set; }
 
-        public ISpecification<Client> AddPredicate(params Expression<Func<Client, bool>>[] predicates)
+        public virtual ISpecification<Client> AddPredicate(params Expression<Func<Client, bool>>[] predicates)
         {
             foreach (var p in predicates)
             {
@@ -34,7 +34,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs
             return this;
         }
 
-        public ISpecification<Client> AddSortOrder(params Expression<Func<Client, object>>[] criteria)
+        public virtual ISpecification<Client> AddSortOrder(params Expression<Func<Client, object>>[] criteria)
         {
             foreach(var c in criteria)
             {
@@ -43,7 +43,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs
             return this;
         }
 
-        public ISpecification<Client> AddIncludes(params Expression<Func<Client, object>>[] includes)
+        public virtual ISpecification<Client> AddIncludes(params Expression<Func<Client, object>>[] includes)
         {
             foreach(var i in includes)
             {

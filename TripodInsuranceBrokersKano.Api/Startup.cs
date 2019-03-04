@@ -13,7 +13,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TripodInsuranceBrokersKano.DomainModels.Entities;
+using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
 using TripodInsuranceBrokersKano.Infrastructure.Context;
+using TripodInsuranceBrokersKano.Infrastructure.DataService;
+using TripodInsuranceBrokersKano.Infrastructure.Repository;
+using TripodInsuranceBrokersKano.Infrastructure.Services;
+using TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs;
 
 namespace TripodInsuranceBrokersKano.Api
 {
@@ -45,6 +51,10 @@ namespace TripodInsuranceBrokersKano.Api
             });
 
             services.AddAutoMapper();
+            services.AddScoped<IRepository<Client>, GenericRepository<Client>>();
+            services.AddScoped<ClientDataService>();
+            services.AddTransient<ISpecification<Client>, ClientSpec>();
+            services.AddTransient<UserResolverService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
