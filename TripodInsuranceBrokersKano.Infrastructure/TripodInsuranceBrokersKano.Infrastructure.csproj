@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -6,12 +6,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="IdentityServer4" Version="2.3.2" />
     <PackageReference Include="LinqKit.Microsoft.EntityFrameworkCore" Version="1.1.15" />
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.1">
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -21,6 +23,24 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TripodInsuranceBrokersKano.DomainModels\TripodInsuranceBrokersKano.DomainModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Specifications\InsurerSpecs\" />
+    <Folder Include="Specifications\DebitNoteSpecs\" />
+    <Folder Include="Specifications\CreditNoteSpecs\" />
+    <Folder Include="Specifications\PolicyTypeSpecs\" />
+    <Folder Include="Specifications\ReceiptSpecs\" />
+    <Folder Include="Specifications\PolicySpecs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="IdentityModel">
+      <HintPath>..\..\..\..\.nuget\packages\identitymodel\3.10.3\lib\netstandard2.0\IdentityModel.dll</HintPath>
+    </Reference>
+    <Reference Include="IdentityServer4.Storage">
+      <HintPath>..\..\..\..\.nuget\packages\identityserver4.storage\2.3.1\lib\netstandard2.0\IdentityServer4.Storage.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
