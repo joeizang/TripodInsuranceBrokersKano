@@ -2,15 +2,11 @@
 using Bogus;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using NSubstitute;
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
 using TripodInsuranceBrokersKano.Infrastructure.AutoMapperProfiles;
-using TripodInsuranceBrokersKano.Infrastructure.Context;
 using TripodInsuranceBrokersKano.Infrastructure.DataService;
 using TripodInsuranceBrokersKano.Infrastructure.Services;
 using TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs;
@@ -24,6 +20,12 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
 
         public UserResolverService UserResolver { get; set; }
 
+        public Mock<IRepository<Client>> Repo { get; set; }
+
+        public IMapper Mapper { get; set; }
+
+        public ClientSpec Cspec { get; set; }
+
 
         public ClientDataServiceTest()
         {
@@ -31,6 +33,9 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
             {
                 options.AddProfile(typeof(ClientMapperProfile));
             });
+
+            Repo = new Mock<IRepository<Client>>();
+            Cspec = new ClientSpec();
         }
 
         [Fact]
@@ -43,36 +48,112 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
                 .RuleFor(c => c.EmailAddress, f => f.Internet.Email())
                 .RuleFor(c => c.ClientAddress, f => new Address())
                 .RuleFor(c => c.ContactAddress, f => new Address()).Generate();
-            var client = new Faker<Client>()
+
+            var http = new Mock<IHttpContextAccessor>();
+            http.Setup(x => x.HttpContext.User.Identity.Name).Returns("loggedinuser@app.com");
+
+            Repo.Setup(x => x.Add(It.IsAny<Client>()))
+                .Verifiable();
+
+            Mapper = TestStartup.CreateMapper(Config);
+
+            var datasrv = new ClientDataService(Repo.Object, Mapper, Cspec);
+
+            datasrv.CreateClient(apimodel, http.Object.HttpContext.User.Identity.Name);
+
+            Repo.VerifyAll();
+        }
+
+
+        [Fact]
+        public void UpdateClientTest()
+        {
+            var apimodel = new Faker<UpdateClientApiModel>()
                 .RuleFor(c => c.Name, f => f.Company.CompanyName())
-                .RuleFor(c => c.Id, 1)
+                .RuleFor(c => c.ContactPerson, f => f.Person.FullName)
+                .RuleFor(c => c.Description, f => f.Lorem.Sentences())
+                .RuleFor(c => c.EmailAddress, f => f.Internet.Email())
+                .RuleFor(c => c.ClientAddress, f => new Address())
+                .RuleFor(c => c.ContactAddress, f => new Address()).Generate();
+
+            var http = new Mock<IHttpContextAccessor>();
+            http.Setup(x => x.HttpContext.User.Identity.Name).Returns("loggedinuser@app.com");
+
+            Repo.Setup(x => x.Update(It.IsAny<Client>()))
+                .Verifiable();
+
+            Mapper = TestStartup.CreateMapper(Config);
+
+            var datasrv = new ClientDataService(Repo.Object, Mapper, Cspec);
+
+            datasrv.UpdateClient(apimodel, http.Object.HttpContext.User.Identity.Name);
+
+            Repo.VerifyAll();
+        }
+
+        [Fact]
+        public void DetailClientTest_ReturnsAClient()
+        {
+
+            var apimodel = new Faker<DetailClientApiModel>()
+                .RuleFor(c => c.Name, f => f.Company.CompanyName())
                 .RuleFor(c => c.ContactPerson, f => f.Person.FullName)
                 .RuleFor(c => c.Description, f => f.Lorem.Sentences())
                 .RuleFor(c => c.EmailAddress, f => f.Internet.Email())
                 .RuleFor(c => c.ClientAddress, f => new Address())
                 .RuleFor(c => c.OtherAddress, f => new Address()).Generate();
 
-            var spec = new Mock<ISpecification<Client>>();
-            spec.Setup(c => c.Predicates)
-                .Returns(new List<Expression<Func<Client, bool>>>() { x => x.Id == 1 });
+            var mapper = new Mock<IMapper>();
 
-            var http = new Mock<IHttpContextAccessor>();
-            http.Setup(x => x.HttpContext.User.Identity.Name).Returns("loggedinuser@app.com");
+            mapper.Setup(x => x
+            .Map<Client, DetailClientApiModel>(
+                It.IsAny<Client>()))
+            .Returns(apimodel);
 
+            Repo.Setup(x => x.Get(Cspec)).Returns(It.IsAny<Client>());
 
-            var repo = new Mock<IRepository<Client>>();
+            Mapper = TestStartup.CreateMapper(Config);
 
-            var cspec = new ClientSpec();
+            var service = new ClientDataService(Repo.Object, mapper.Object, Cspec);
 
-            var mapper = TestStartup.CreateMapper(Config);
+            var result = service.DetailClient(1);
 
-            repo.Setup(x => x.Add(client))
-                .Verifiable();
-            var datasrv = new ClientDataService(repo.Object, mapper, cspec);
+            Assert.IsType<DetailClientApiModel>(result);
+        }
 
-            datasrv.CreateClient(apimodel, http.Object.HttpContext.User.Identity.Name);
+        [Fact]
+        public void GetAllClients_ReturnsListOfClients()
+        {
 
-            
+            var apimodel = new Faker<DetailClientApiModel>()
+                .RuleFor(c => c.Name, f => f.Company.CompanyName())
+                .RuleFor(c => c.ContactPerson, f => f.Person.FullName)
+                .RuleFor(c => c.Description, f => f.Lorem.Sentences())
+                .RuleFor(c => c.EmailAddress, f => f.Internet.Email())
+                .RuleFor(c => c.ClientAddress, f => new Address())
+                .RuleFor(c => c.OtherAddress, f => new Address()).Generate(3);
+
+            var clients = new Faker<Client>()
+                .RuleFor(c => c.Name, f => f.Company.CompanyName())
+                .RuleFor(c => c.ContactPerson, f => f.Person.FullName)
+                .RuleFor(c => c.Description, f => f.Lorem.Sentences())
+                .RuleFor(c => c.EmailAddress, f => f.Internet.Email())
+                .RuleFor(c => c.ClientAddress, f => new Address())
+                .RuleFor(c => c.OtherAddress, f => new Address()).Generate(3);
+
+            var mapper = new Mock<IMapper>();
+
+            mapper.Setup(x => x
+            .Map<List<DetailClientApiModel>>(It.IsAny<List<Client>>()))
+            .Returns(It.IsAny<List<DetailClientApiModel>>);
+
+            Repo.Setup(x => x.GetAll(Cspec)).Returns(It.IsAny<List<Client>>);
+
+            var service = new ClientDataService(Repo.Object, mapper.Object, Cspec);
+
+            var result = service.GetAllClients();
+
+            Assert.IsType<DetailClientApiModel>(result);
         }
     }
 }

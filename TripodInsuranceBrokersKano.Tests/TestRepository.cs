@@ -9,9 +9,16 @@ namespace TripodInsuranceBrokersKano.Tests
 {
     public class TestRepository<T> : IRepository<T> where T : BaseEntity
     {
+
+        public TestRepository()
+        {
+
+        }
+
+
         public void Add(T entity)
         {
-            throw new NotImplementedException();
+            
         }
 
         public int Commit()

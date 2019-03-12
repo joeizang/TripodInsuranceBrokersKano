@@ -1,7 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
@@ -37,7 +36,8 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
             var targetClient = _repo.Get(_clientSpec
                 .AddPredicate(x => x.Id == model.TargetClientId));
             //use automapper to map the apimodel to entity and save it.
-            var tclient = _mapper.Map<UpdateClientApiModel, Client>(model);
+            var tclient = _mapper.Map<UpdateClientApiModel, Client>(model, targetClient);
+            _repo.Update(tclient);
             
         }
 
