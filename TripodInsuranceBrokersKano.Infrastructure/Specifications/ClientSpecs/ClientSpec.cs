@@ -24,7 +24,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs
         public int Skip { get; set; }
         public int Take { get; set; }
 
-        public virtual ISpecification<Client> AddPredicate(params Expression<Func<Client, bool>>[] predicates)
+        public virtual ClientSpec AddPredicate(params Expression<Func<Client, bool>>[] predicates)
         {
             foreach (var p in predicates)
             {
@@ -34,7 +34,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs
             return this;
         }
 
-        public virtual ISpecification<Client> AddSortOrder(params Expression<Func<Client, object>>[] criteria)
+        public virtual ClientSpec AddSortOrder(params Expression<Func<Client, object>>[] criteria)
         {
             foreach(var c in criteria)
             {
@@ -43,7 +43,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs
             return this;
         }
 
-        public virtual ISpecification<Client> AddIncludes(params Expression<Func<Client, object>>[] includes)
+        public virtual ClientSpec AddIncludes(params Expression<Func<Client, object>>[] includes)
         {
             foreach(var i in includes)
             {

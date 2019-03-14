@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
@@ -22,6 +25,16 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
             _repo = repo;
             _clientSpec = clientSpec;
             _mapper = mapper;
+        }
+
+        public bool VerifyNoDuplicateClient(CreateClientApiModel model)
+        {
+            var checks = _repo.Query(_clientSpec.AddPredicate(x => !x.Name.Equals(model.ClientName),
+                x => !x.EmailAddress.Equals(model.EmailAddress))).AsNoTracking().ToList();
+            if (checks.Count == 0)
+                return true;
+            // there are duplicates
+            return false;
         }
 
 

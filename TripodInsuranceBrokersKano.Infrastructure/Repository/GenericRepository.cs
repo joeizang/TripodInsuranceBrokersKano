@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using TripodInsuranceBrokersKano.DomainModels.Abstractions;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
@@ -62,10 +63,9 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
         {
             T result = null;
 
-
             spec.Includes?.ForEach(i => _set.Include(i));
 
-            spec.Predicates?.ForEach(p => result = _set.AsNoTracking().SingleOrDefault(p));
+            spec.Predicates?.ForEach(async p => result = await _set.AsNoTracking().SingleOrDefaultAsync(p));
 
             return result;
         }

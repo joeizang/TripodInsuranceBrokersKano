@@ -11,6 +11,7 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class ClientsController : ControllerBase
     {
         private readonly ClientDataService _service;
@@ -25,21 +26,33 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
         {
             //make sure that any user that get here is logged in os we know what they is upto.
             //TODO: Handle filtering from clients. Make it generic so you write the code one.
-            //var clients
-            return new List<DetailClientApiModel>();
+            //var clients Handle pagination
+            return Ok(_service.GetAllClients());
         }
 
         // GET: api/Clients/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public ActionResult<DetailClientApiModel> Get(int? id)
         {
-            return "value";
+            if(!(id is null))
+                return _service.DetailClient(id.Value);
+
+            return NotFound();
         }
 
         // POST: api/Clients
         [HttpPost]
-        public void Post([FromBody] string value)
+        
+        public ActionResult Post([FromBody] CreateClientApiModel model)
         {
+            if(ModelState.IsValid && _service.VerifyNoDuplicateClient(model))
+            {
+                _service.CreateClient(model, HttpContext.User?.Identity?.Name);
+                _service.SaveChanges();
+                return Ok();
+            }
+
+            return BadRequest(model);
         }
 
         // PUT: api/Clients/5

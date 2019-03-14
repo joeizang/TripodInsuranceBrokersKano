@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Bogus;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
@@ -120,6 +123,60 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
 
             Assert.IsType<DetailClientApiModel>(result);
         }
+
+
+        [Fact]
+        public void VerifyNoDuplicateClient_ReturnsTrueIfNoMatchIsFound()
+        {
+            var apimodel = new Faker<CreateClientApiModel>()
+                .RuleFor(c => c.ClientName, f => "TestUser")
+                .RuleFor(c => c.ContactPerson, f => f.Person.FullName)
+                .RuleFor(c => c.Description, f => f.Lorem.Sentences())
+                .RuleFor(c => c.EmailAddress, f => "someemail@TestUser.com")
+                .RuleFor(c => c.ClientAddress, f => new Address())
+                .RuleFor(c => c.ContactAddress, f => new Address()).Generate();
+
+            var spec = Cspec.AddPredicate(x => x.Name.Equals(apimodel.ClientName),
+                       x => x.EmailAddress.Equals("someemail@TestUser.com"));
+
+            Repo.Setup(c => c.Query(spec)).Returns(new List<Client>().AsQueryable());
+
+            var sut = new ClientDataService(Repo.Object, Mapper, spec);
+            var result = sut.VerifyNoDuplicateClient(apimodel);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void VerifyNoDuplicateClient_ReturnsFalseIfMatchIsFound()
+        {
+            var apimodel = new Faker<CreateClientApiModel>()
+                .RuleFor(c => c.ClientName, f => "TestUser")
+                .RuleFor(c => c.ContactPerson, f => f.Person.FullName)
+                .RuleFor(c => c.Description, f => f.Lorem.Sentences())
+                .RuleFor(c => c.EmailAddress, f => "someemail@TestUser.com")
+                .RuleFor(c => c.ClientAddress, f => new Address())
+                .RuleFor(c => c.ContactAddress, f => new Address()).Generate();
+
+            var clients = new Faker<Client>()
+                .RuleFor(c => c.Name, f => f.Company.CompanyName())
+                .RuleFor(c => c.ContactPerson, f => f.Person.FullName)
+                .RuleFor(c => c.Description, f => f.Lorem.Sentences())
+                .RuleFor(c => c.EmailAddress, f => f.Internet.Email())
+                .RuleFor(c => c.ClientAddress, f => new Address())
+                .RuleFor(c => c.OtherAddress, f => new Address()).Generate(3);
+
+            var spec = Cspec.AddPredicate(x => x.Name.Equals(apimodel.ClientName),
+                       x => x.EmailAddress.Equals("someemail@TestUser.com"));
+
+            Repo.Setup(c => c.Query(spec)).Returns(clients.AsQueryable());
+
+            var sut = new ClientDataService(Repo.Object, Mapper, spec);
+            var result = sut.VerifyNoDuplicateClient(apimodel);
+
+            Assert.False(result);
+        }
+
 
         [Fact]
         public void GetAllClients_ReturnsListOfClients()
