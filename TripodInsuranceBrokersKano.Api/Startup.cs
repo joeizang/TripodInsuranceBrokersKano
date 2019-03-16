@@ -6,6 +6,7 @@ using AutoMapper;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -53,8 +54,9 @@ namespace TripodInsuranceBrokersKano.Api
             services.AddAutoMapper();
             services.AddScoped<IRepository<Client>, GenericRepository<Client>>();
             services.AddScoped<ClientDataService>();
-            services.AddTransient<ISpecification<Client>, ClientSpec>();
+            services.AddTransient<ClientSpec>();
             services.AddTransient<UserResolverService>();
+            services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

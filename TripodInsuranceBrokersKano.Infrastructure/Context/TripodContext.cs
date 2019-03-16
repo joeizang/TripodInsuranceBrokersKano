@@ -10,11 +10,7 @@ using TripodInsuranceBrokersKano.Infrastructure.IdentityModels;
 namespace TripodInsuranceBrokersKano.Infrastructure.Context
 {
     public class TripodContext : IdentityDbContext<ApplicationUser,ApplicationRole,int>
-    {
-        public TripodContext(DbContextOptions<TripodContext> options) : base(options)
-        {
-            
-        }
+    { 
 
         public TripodContext()
         {

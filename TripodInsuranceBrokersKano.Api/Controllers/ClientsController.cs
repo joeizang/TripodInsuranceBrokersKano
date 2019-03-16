@@ -56,15 +56,24 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
         }
 
         // PUT: api/Clients/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{model}")]
+        public ActionResult Put(int id, [FromBody] UpdateClientApiModel model)
         {
+            if(ModelState.IsValid)
+            {
+                _service.UpdateClient(model, HttpContext.User?.Identity?.Name);
+                _service.SaveChanges();
+                return Ok();
+            }
+            return BadRequest(model);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(DeleteClientApiModel model)
         {
+            _service.DeleteClient(model, HttpContext.User?.Identity?.Name);
+            _service.SaveChanges();
         }
     }
 }
