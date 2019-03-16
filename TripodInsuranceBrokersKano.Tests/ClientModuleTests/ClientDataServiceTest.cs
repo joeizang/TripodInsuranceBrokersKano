@@ -27,7 +27,7 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
 
         public IMapper Mapper { get; set; }
 
-        public ClientSpec Cspec { get; set; }
+        public ISpecification<Client> Cspec { get; set; }
 
 
         public ClientDataServiceTest()
@@ -136,7 +136,7 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
                 .RuleFor(c => c.ClientAddress, f => new Address())
                 .RuleFor(c => c.ContactAddress, f => new Address()).Generate();
 
-            var spec = Cspec.AddPredicate(x => x.Name.Equals(apimodel.ClientName),
+            var spec = Cspec.AddPredicates(x => x.Name.Equals(apimodel.ClientName),
                        x => x.EmailAddress.Equals("someemail@TestUser.com"));
 
             Repo.Setup(c => c.Query(spec)).Returns(new List<Client>().AsQueryable());
@@ -166,7 +166,7 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
                 .RuleFor(c => c.ClientAddress, f => new Address())
                 .RuleFor(c => c.OtherAddress, f => new Address()).Generate(3);
 
-            var spec = Cspec.AddPredicate(x => x.Name.Equals(apimodel.ClientName),
+            var spec = Cspec.AddPredicates(x => x.Name.Equals(apimodel.ClientName),
                        x => x.EmailAddress.Equals("someemail@TestUser.com"));
 
             Repo.Setup(c => c.Query(spec)).Returns(clients.AsQueryable());

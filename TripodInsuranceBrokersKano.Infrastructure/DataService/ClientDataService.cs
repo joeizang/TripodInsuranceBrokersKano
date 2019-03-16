@@ -14,22 +14,20 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
     public class ClientDataService
     {
         private readonly IRepository<Client> _repo;
-        private ClientSpec _clientSpec;
         private readonly IMapper _mapper;
-
+        private readonly ISpecification<Client> _spec;
 
         public ClientDataService(IRepository<Client> repo, 
-                                 IMapper mapper,
-                                 ClientSpec clientSpec)
+                                 IMapper mapper,ISpecification<Client> spec)
         {
             _repo = repo;
-            _clientSpec = clientSpec;
             _mapper = mapper;
+            _spec = spec;
         }
 
         public bool VerifyNoDuplicateClient(CreateClientApiModel model)
         {
-            var checks = _repo.Query(_clientSpec.AddPredicate(x => !x.Name.Equals(model.ClientName),
+            var checks = _repo.Query(_spec.AddPredicates(x => !x.Name.Equals(model.ClientName),
                 x => !x.EmailAddress.Equals(model.EmailAddress))).AsNoTracking().ToList();
             if (checks.Count == 0)
                 return true;
@@ -46,8 +44,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
 
         public void UpdateClient(UpdateClientApiModel model, string updator)
         {
-            var targetClient = _repo.Get(_clientSpec
-                .AddPredicate(x => x.Id == model.TargetClientId));
+            var targetClient = _repo.Get(_spec.AddPredicates(x => x.Id == model.TargetClientId));
             //use automapper to map the apimodel to entity and save it.
             var tclient = _mapper.Map<UpdateClientApiModel, Client>(model, targetClient);
             _repo.Update(tclient);
@@ -56,22 +53,21 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
 
         public DetailClientApiModel DetailClient(int id)
         {
-            var targetClient = _repo.Get(_clientSpec
-                .AddPredicate(c => c.Id == id));
+            var targetClient = _repo.Get(_spec.AddPredicates(c => c.Id == id));
             var mClient = _mapper.Map<Client, DetailClientApiModel>(targetClient);
             return mClient;
         }
 
         public List<DetailClientApiModel> GetAllClients()
         {
-            var list = _repo.GetAll(_clientSpec);
+            var list = _repo.GetAll(_spec);
             var clientList = _mapper.Map<List<DetailClientApiModel>>(list);
             return clientList;
         }
 
         public void DeleteClient(DeleteClientApiModel model, string deletor)
         {
-            var client = _repo.Get(_clientSpec.AddPredicate(
+            var client = _repo.Get(_spec.AddPredicates(
                     c => c.Id == model.Id &&
                     c.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase)));
             

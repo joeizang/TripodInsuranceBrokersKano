@@ -54,7 +54,7 @@ namespace TripodInsuranceBrokersKano.Api
             services.AddAutoMapper();
             services.AddScoped<IRepository<Client>, GenericRepository<Client>>();
             services.AddScoped<ClientDataService>();
-            services.AddTransient<ClientSpec>();
+            services.AddTransient<ISpecification<Client>,ClientSpec>();
             services.AddTransient<UserResolverService>();
             services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
         }

@@ -49,7 +49,7 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
             {
                 _service.CreateClient(model, HttpContext.User?.Identity?.Name);
                 _service.SaveChanges();
-                return Ok();
+                return CreatedAtAction(nameof(Get), model);
             }
 
             return BadRequest(model);
