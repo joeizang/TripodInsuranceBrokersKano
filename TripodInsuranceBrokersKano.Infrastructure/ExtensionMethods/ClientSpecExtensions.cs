@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using TripodInsuranceBrokersKano.DomainModels.Abstractions;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
 
@@ -11,23 +12,23 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Abstractions
     public static class ClientSpecExtensions
     {
 
-        public static ISpecification<Client> AddPredicates(this ISpecification<Client> spec,
-            params Expression<Func<Client,bool>>[] predicates)
+        public static ISpecification<T> AddPredicates<T>(this ISpecification<T> spec,
+            params Expression<Func<T,bool>>[] predicates) where T : BaseEntity
         {
 
             predicates.ToList().ForEach(p => spec.Predicates.Add(p));
             return spec;
         }
 
-        public static ISpecification<Client> AddIncludes(this ISpecification<Client> spec,
-            params Expression<Func<Client,object>>[] includes)
+        public static ISpecification<T> AddIncludes<T>(this ISpecification<T> spec,
+            params Expression<Func<T,object>>[] includes) where T : BaseEntity
         {
             includes.ToList().ForEach(i => spec.Includes.Add(i));
             return spec;
         }
 
-        public static ISpecification<Client> AddSortOrder(this ISpecification<Client> spec,
-            params Expression<Func<Client,object>>[] sortOrder)
+        public static ISpecification<T> AddSortOrder<T>(this ISpecification<T> spec,
+            params Expression<Func<T,object>>[] sortOrder) where T : BaseEntity
         {
             sortOrder.ToList().ForEach(s => spec.SortOrder.Add(s));
             return spec;

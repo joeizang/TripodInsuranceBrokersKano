@@ -1,18 +1,16 @@
 ﻿using AutoMapper;
 using Bogus;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
 using TripodInsuranceBrokersKano.Infrastructure.AutoMapperProfiles;
 using TripodInsuranceBrokersKano.Infrastructure.DataService;
 using TripodInsuranceBrokersKano.Infrastructure.Services;
-using TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs;
+using TripodInsuranceBrokersKano.Infrastructure.Specifications;
 using Xunit;
 
 namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
@@ -38,7 +36,7 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
             });
 
             Repo = new Mock<IRepository<Client>>();
-            Cspec = new ClientSpec();
+            Cspec = new Specification<Client>();
         }
 
         [Fact]

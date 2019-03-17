@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
-using TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs;
 
 namespace TripodInsuranceBrokersKano.Infrastructure.DataService
 {

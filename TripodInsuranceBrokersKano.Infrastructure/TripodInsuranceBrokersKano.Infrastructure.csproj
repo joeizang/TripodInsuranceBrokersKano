@@ -26,9 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Specifications\InsurerSpecs\" />
     <Folder Include="Specifications\DebitNoteSpecs\" />
     <Folder Include="Specifications\CreditNoteSpecs\" />
+    <Folder Include="Specifications\InsurerSpecs\" />
     <Folder Include="Specifications\PolicyTypeSpecs\" />
     <Folder Include="Specifications\ReceiptSpecs\" />
     <Folder Include="Specifications\PolicySpecs\" />

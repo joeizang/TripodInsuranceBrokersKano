@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
 using TripodInsuranceBrokersKano.Infrastructure.Context;
 using TripodInsuranceBrokersKano.Infrastructure.DataService;
 using TripodInsuranceBrokersKano.Infrastructure.Repository;
 using TripodInsuranceBrokersKano.Infrastructure.Services;
-using TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs;
+using TripodInsuranceBrokersKano.Infrastructure.Specifications;
 
 namespace TripodInsuranceBrokersKano.Api
 {
@@ -54,7 +47,7 @@ namespace TripodInsuranceBrokersKano.Api
             services.AddAutoMapper();
             services.AddScoped<IRepository<Client>, GenericRepository<Client>>();
             services.AddScoped<ClientDataService>();
-            services.AddTransient<ISpecification<Client>,ClientSpec>();
+            services.AddTransient<ISpecification<Client>,Specification<Client>>();
             services.AddTransient<UserResolverService>();
             services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
         }
