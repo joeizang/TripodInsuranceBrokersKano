@@ -37,7 +37,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
             //validation happens higher up the stack.
             entity.CreatedAt = DateTimeOffset.UtcNow;
             entity.CreatedBy = _userService.GetUser();
-            entity.ActionType = ActionType.Update;
+            entity.ActionType = ActionType.Create;
             _set.Add(entity);
         }
 

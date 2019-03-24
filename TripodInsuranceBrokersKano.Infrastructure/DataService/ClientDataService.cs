@@ -6,21 +6,17 @@ using System.Linq;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
+using TripodInsuranceBrokersKano.Infrastructure.Exceptions;
 
 namespace TripodInsuranceBrokersKano.Infrastructure.DataService
 {
-    public class ClientDataService
+    public class ClientDataService : DataServiceBase<Client>
     {
-        private readonly IRepository<Client> _repo;
-        private readonly IMapper _mapper;
-        private readonly ISpecification<Client> _spec;
+        
 
         public ClientDataService(IRepository<Client> repo, 
-                                 IMapper mapper,ISpecification<Client> spec)
+                                 IMapper mapper,ISpecification<Client> spec):base(repo,mapper,spec)
         {
-            _repo = repo;
-            _mapper = mapper;
-            _spec = spec;
         }
 
         public bool VerifyNoDuplicateClient(CreateClientApiModel model)
@@ -36,8 +32,15 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
 
         public void CreateClient(CreateClientApiModel model, string creator)
         {
-            var client = _mapper.Map<CreateClientApiModel, Client>(model);
-            _repo.Add(client);
+            if(VerifyNoDuplicateClient(model))
+            {
+                var client = _mapper.Map<CreateClientApiModel, Client>(model);
+                _repo.Add(client);
+                _repo.Commit();
+            }
+            //a record already exists like this one being created. Send them back
+            throw new
+                DuplicateRecordException("The record already exists! Are you sure you don't want to update rather than create?");
         }
 
         public void UpdateClient(UpdateClientApiModel model, string updator)
@@ -46,7 +49,8 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
             //use automapper to map the apimodel to entity and save it.
             var tclient = _mapper.Map<UpdateClientApiModel, Client>(model, targetClient);
             _repo.Update(tclient);
-            
+            _repo.Commit();
+
         }
 
         public DetailClientApiModel DetailClient(int id)
@@ -70,11 +74,9 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
                     c.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase)));
             
             _repo.Delete(client);
+            _repo.Commit();
         }
 
-        public int SaveChanges()
-        {
-            return _repo.Commit();
-        }
+        
     }
 }

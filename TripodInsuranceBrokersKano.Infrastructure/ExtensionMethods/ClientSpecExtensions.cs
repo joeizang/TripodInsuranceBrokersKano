@@ -33,5 +33,8 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Abstractions
             sortOrder.ToList().ForEach(s => spec.SortOrder.Add(s));
             return spec;
         }
+
+
+        
     }
 }

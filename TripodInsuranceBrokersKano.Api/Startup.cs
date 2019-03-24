@@ -37,6 +37,8 @@ namespace TripodInsuranceBrokersKano.Api
                 {
                     options.Authority = "https://localhost:44393/";
                     options.ApiName = "tripodinsurancebrokersapi";
+
+                    
                 });
 
             services.AddDbContext<TripodContext>(options =>

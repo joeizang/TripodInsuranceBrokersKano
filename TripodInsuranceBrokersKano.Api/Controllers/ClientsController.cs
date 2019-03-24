@@ -48,7 +48,6 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
             if(ModelState.IsValid && _service.VerifyNoDuplicateClient(model))
             {
                 _service.CreateClient(model, HttpContext.User?.Identity?.Name);
-                _service.SaveChanges();
                 return CreatedAtAction(nameof(Get), model);
             }
 
@@ -62,7 +61,6 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
             if(ModelState.IsValid)
             {
                 _service.UpdateClient(model, HttpContext.User?.Identity?.Name);
-                _service.SaveChanges();
                 return Ok();
             }
             return BadRequest(model);
@@ -70,10 +68,10 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(DeleteClientApiModel model)
+        public ActionResult Delete(DeleteClientApiModel model)
         {
             _service.DeleteClient(model, HttpContext.User?.Identity?.Name);
-            _service.SaveChanges();
+            return Ok();
         }
     }
 }
