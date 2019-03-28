@@ -65,7 +65,10 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
 
             spec.Includes?.ForEach(i => _set.Include(i));
 
-            spec.Predicates?.ForEach(async p => result = await _set.AsNoTracking().SingleOrDefaultAsync(p));
+            spec.Predicates?.ForEach(async p =>
+            {
+                result = await _set.AsNoTracking().SingleOrDefaultAsync(p);
+            });
 
             return result;
         }

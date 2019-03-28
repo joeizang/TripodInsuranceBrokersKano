@@ -31,11 +31,11 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
         }
 
         // GET: api/Clients/5
-        [HttpGet("{id}", Name = "Get")]
-        public ActionResult<DetailClientApiModel> Get(int? id)
+        [HttpGet("{id}")]
+        public ActionResult<DetailClientApiModel> Get(int id)
         {
-            if(!(id is null))
-                return _service.DetailClient(id.Value);
+            if(id != 0)
+                return _service.DetailClient(id);
 
             return NotFound();
         }
@@ -61,17 +61,18 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
             if(ModelState.IsValid)
             {
                 _service.UpdateClient(model, HttpContext.User?.Identity?.Name);
-                return Ok();
+                return NoContent();
             }
             return BadRequest(model);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(DeleteClientApiModel model)
+        public ActionResult Delete(int id)
         {
+            var model = new DeleteClientApiModel { Id = id };
             _service.DeleteClient(model, HttpContext.User?.Identity?.Name);
-            return Ok();
+            return NoContent();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Bogus;
 using Microsoft.AspNetCore.Http;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
@@ -9,6 +10,7 @@ using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
 using TripodInsuranceBrokersKano.Infrastructure.AutoMapperProfiles;
 using TripodInsuranceBrokersKano.Infrastructure.DataService;
+using TripodInsuranceBrokersKano.Infrastructure.Exceptions;
 using TripodInsuranceBrokersKano.Infrastructure.Services;
 using TripodInsuranceBrokersKano.Infrastructure.Specifications;
 using Xunit;
@@ -39,6 +41,7 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
             Cspec = new Specification<Client>();
         }
 
+
         [Fact]
         public void CreateClientTest()
         {
@@ -58,11 +61,17 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
 
             Mapper = TestStartup.CreateMapper(Config);
 
+            //var datasrv = new Mock<ClientDataService>(Repo.Object, Mapper, Cspec);
+
+            //datasrv.Setup(d => d.CreateClient(apimodel,
+            //    http.Object.HttpContext.User.Identity.Name))
+            //    .Throws<DuplicateRecordException>();
             var datasrv = new ClientDataService(Repo.Object, Mapper, Cspec);
 
             datasrv.CreateClient(apimodel, http.Object.HttpContext.User.Identity.Name);
 
             Repo.VerifyAll();
+            //datasrv.Verify(x => x.CreateClient(apimodel, http.Object.HttpContext.User.Identity.Name));
         }
 
 
@@ -91,6 +100,7 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
 
             Repo.VerifyAll();
         }
+
 
         [Fact]
         public void DetailClientTest_ReturnsAClient()

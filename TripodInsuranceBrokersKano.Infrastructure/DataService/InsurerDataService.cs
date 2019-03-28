@@ -24,8 +24,8 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
             var result = await _repo.Query(_spec.AddPredicates<Insurer>(x => x.InsurerName.Equals(model.InsurerName)))
                 .AsNoTracking().ToListAsync();
             if (result.Count > 0)
-                return false;
-            return true;
+                return true;
+            return false;
         }
 
 
@@ -67,14 +67,14 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
             if (model.CurrentPage == 0) model.CurrentPage = 1;
             if (model.PageSize == 0) model.PageSize = 15;
             var result = await _repo.Query(_spec).AsNoTracking()
-                              .ProjectTo<IndexInsurerApiModel>()
                               .Skip((model.CurrentPage - 1) * model.PageSize)
                               .Take(model.PageSize)
                               .ToListAsync();
-            return result;
+            var results = _mapper.Map<List<IndexInsurerApiModel>>(result);
+            return results;
         }
 
-        public DetailInsurerApiModel GetInsurer(int id)
+        public DetailInsurerApiModel DetailInsurer(int id)
         {
             var target = _repo.Get(_spec.AddPredicates(i => i.Id == id));
             var insurer = _mapper.Map<Insurer, DetailInsurerApiModel>(target);

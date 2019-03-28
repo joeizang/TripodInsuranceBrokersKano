@@ -29,7 +29,6 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
             var mapper = TestStartup.CreateMapper(Config);
 
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
-
         }
 
         

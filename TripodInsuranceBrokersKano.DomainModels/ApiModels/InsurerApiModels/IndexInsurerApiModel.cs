@@ -15,7 +15,5 @@ namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.InsurerApiModels
 
         public string EmailAddress { get; set; }
         public PhoneNumbers PhoneNumbers { get; set; }
-
-        public int TotalNumberOfInsurers { get; set; }
     }
 }

@@ -9,5 +9,10 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Exceptions
         public DuplicateRecordException(string message) : base(message)
         {
         }
+
+        public DuplicateRecordException()
+        {
+
+        }
     }
 }

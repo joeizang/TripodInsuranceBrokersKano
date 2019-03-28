@@ -19,7 +19,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
         {
         }
 
-        public bool VerifyNoDuplicateClient(CreateClientApiModel model)
+        public virtual bool VerifyNoDuplicateClient(CreateClientApiModel model)
         {
             var checks = _repo.Query(_spec.AddPredicates(x => !x.Name.Equals(model.ClientName),
                 x => !x.EmailAddress.Equals(model.EmailAddress))).AsNoTracking().ToList();
@@ -30,7 +30,7 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
         }
 
 
-        public void CreateClient(CreateClientApiModel model, string creator)
+        public virtual void CreateClient(CreateClientApiModel model, string creator)
         {
             if(VerifyNoDuplicateClient(model))
             {
@@ -39,11 +39,10 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
                 _repo.Commit();
             }
             //a record already exists like this one being created. Send them back
-            throw new
-                DuplicateRecordException("The record already exists! Are you sure you don't want to update rather than create?");
+            
         }
 
-        public void UpdateClient(UpdateClientApiModel model, string updator)
+        public virtual void UpdateClient(UpdateClientApiModel model, string updator)
         {
             var targetClient = _repo.Get(_spec.AddPredicates(x => x.Id == model.TargetClientId));
             //use automapper to map the apimodel to entity and save it.
@@ -53,21 +52,21 @@ namespace TripodInsuranceBrokersKano.Infrastructure.DataService
 
         }
 
-        public DetailClientApiModel DetailClient(int id)
+        public virtual DetailClientApiModel DetailClient(int id)
         {
             var targetClient = _repo.Get(_spec.AddPredicates(c => c.Id == id));
             var mClient = _mapper.Map<Client, DetailClientApiModel>(targetClient);
             return mClient;
         }
 
-        public List<DetailClientApiModel> GetAllClients()
+        public virtual List<DetailClientApiModel> GetAllClients()
         {
             var list = _repo.GetAll(_spec);
             var clientList = _mapper.Map<List<DetailClientApiModel>>(list);
             return clientList;
         }
 
-        public void DeleteClient(DeleteClientApiModel model, string deletor)
+        public virtual void DeleteClient(DeleteClientApiModel model, string deletor)
         {
             var client = _repo.Get(_spec.AddPredicates(
                     c => c.Id == model.Id &&
