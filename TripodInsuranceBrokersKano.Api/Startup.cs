@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
+using TripodInsuranceBrokersKano.Infrastructure.AutoMapperProfiles;
 using TripodInsuranceBrokersKano.Infrastructure.Context;
 using TripodInsuranceBrokersKano.Infrastructure.DataService;
 using TripodInsuranceBrokersKano.Infrastructure.Repository;
@@ -46,7 +48,7 @@ namespace TripodInsuranceBrokersKano.Api
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(ClientMapperProfile), typeof(InsurerMapperProfile), typeof(PolicyMapperProfile));
             services.AddScoped<IRepository<Client>, GenericRepository<Client>>();
             services.AddScoped<IRepository<Insurer>, GenericRepository<Insurer>>();
             services.AddScoped<ClientDataService>();

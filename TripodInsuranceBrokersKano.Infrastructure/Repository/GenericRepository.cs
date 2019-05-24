@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using TripodInsuranceBrokersKano.DomainModels.Abstractions;
@@ -65,17 +66,17 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
 
             spec.Includes?.ForEach(i => _set.Include(i));
 
-            spec.Predicates?.ForEach(async p =>
+            spec.Predicates?.ForEach ( async p =>
             {
-                result = await _set.AsNoTracking().SingleOrDefaultAsync(p);
+                result = await _set.AsNoTracking().SingleOrDefaultAsync(p).ConfigureAwait(false); //optimization since no need to go back to main thread
             });
 
             return result;
         }
 
-        public List<T> GetAll(ISpecification<T> spec)
+        public Task<List<T>> GetAll(ISpecification<T> spec)
         {
-            var result = Query(spec).AsNoTracking().ToList();
+            var result = Query(spec).AsNoTracking().ToListAsync();
             return result;
         }
 
@@ -100,12 +101,41 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Repository
             }
 
             spec?.Includes.ForEach(i => _set.Include(i));
-            spec?.Predicates.ForEach(p =>
-            {
-                _set.Where(p);
-            });
+            spec?.Predicates.ForEach(p => _set.Where(p));
             return _set;
         }
+
+        public IQueryable<T> Query(Expression<Func<T,bool>>[] predicates,
+            Expression<Func<T,object>>[] includes)
+        {
+            if (predicates is null && includes is null) return _set;
+
+            if (predicates.Length == 0 && includes.Length == 0) return _set;
+
+            //predicates.ForEach(p => _set.AsNoTracking().Where(p));
+            foreach(var p in predicates)
+            {
+                _set.AsNoTracking().Where(p);
+            }
+            _ = includes.Select(i => _set.AsNoTracking().Include(i));
+
+            return _set;
+        }
+
+        public IQueryable<T> Query(List<Expression<Func<T, int, bool>>> predicates,
+            List<Expression<Func<T, object>>> includes)
+        {
+            if (predicates is null && includes is null) return _set;
+
+            if (predicates.Count == 0 && includes.Count == 0) return _set;
+
+            predicates.ForEach(p => _set.AsNoTracking().Where(p));
+            includes.ForEach(i => _set.AsNoTracking().Include(i));
+
+            return _set;
+        }
+
+
 
         public int Commit()
         {

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using TripodInsuranceBrokersKano.DomainModels.Abstractions;
-using TripodInsuranceBrokersKano.DomainModels.Entities;
-using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
 
 namespace TripodInsuranceBrokersKano.Infrastructure.Abstractions
 {

@@ -143,6 +143,35 @@ namespace TripodInsuranceBrokersKano.Tests.RepositoryTests
             }
         }
 
+        [Fact]
+        public async Task RepositoryQuery_ReturnsIQueryable()
+        {
+            using (var context = new TripodContext(Options))
+            {
+                context.Database.EnsureCreated();
+                await ScaffoldEFTestStructure(context);
+
+                using (var context1 = new TripodContext(Options))
+                {
+                    var http = new Mock<IHttpContextAccessor>();
+                    http.Setup(h => h.HttpContext.User.Identity.Name).Returns("SomeUser@user.com");
+                    var userService = new UserResolverService(http.Object);
+                    var repo = new GenericRepository<Insurer>(context1, userService);
+
+                    var predicates = new List<Expression<Func<Insurer, bool>>>
+                    {
+                        x => x.InsurerName.Equals("aiico plc")
+                    }.ToArray();
+                    var includes = new List<Expression<Func<Insurer, object>>>().ToArray();
+
+
+                    var result = repo.Query(predicates, includes);
+
+                    Assert.IsAssignableFrom<IQueryable<Insurer>>(result);
+                }
+            }
+        }
+
 
         private static async Task ScaffoldEFTestStructure(TripodContext context)
         {

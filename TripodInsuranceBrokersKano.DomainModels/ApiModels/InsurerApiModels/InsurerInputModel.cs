@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TripodInsuranceBrokersKano.DomainModels.Abstractions;
 
 namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.InsurerApiModels
 {
-    public class InsurerInputModel
+    public class InsurerInputModel : IApiModel
     {
         //Number of records per page
         public int PageSize { get; set; }

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
+using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.DataService;
+using TripodInsuranceBrokersKano.Infrastructure.Specifications;
 
 namespace TripodInsuranceBrokersKano.Api.Controllers
 {
@@ -27,7 +29,7 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
             //make sure that any user that get here is logged in os we know what they is upto.
             //TODO: Handle filtering from clients. Make it generic so you write the code one.
             //var clients Handle pagination
-            return Ok(_service.GetAllClients());
+            return Ok(_service.GetAll<DetailClientApiModel>(new Specification<Client>()));
         }
 
         // GET: api/Clients/5
@@ -35,7 +37,7 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
         public ActionResult<DetailClientApiModel> Get(int id)
         {
             if(id != 0)
-                return _service.DetailClient(id);
+                return _service.GetById<DetailClientApiModel>(id,new Specification<Client>());
 
             return NotFound();
         }
@@ -45,9 +47,9 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
         
         public ActionResult Post([FromBody] CreateClientApiModel model)
         {
-            if(ModelState.IsValid && _service.VerifyNoDuplicateClient(model))
+            if(ModelState.IsValid && _service.CheckForDuplicate(model))
             {
-                _service.CreateClient(model, HttpContext.User?.Identity?.Name);
+                _service.Create(model, HttpContext.User?.Identity?.Name);
                 return CreatedAtAction(nameof(Get), model);
             }
 
@@ -60,7 +62,7 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
         {
             if(ModelState.IsValid)
             {
-                _service.UpdateClient(model, HttpContext.User?.Identity?.Name);
+                _service.Update(model, new Specification<Client>());
                 return NoContent();
             }
             return BadRequest(model);
@@ -71,7 +73,7 @@ namespace TripodInsuranceBrokersKano.Api.Controllers
         public ActionResult Delete(int id)
         {
             var model = new DeleteClientApiModel { Id = id };
-            _service.DeleteClient(model, HttpContext.User?.Identity?.Name);
+            _service.Delete(model, new Specification<Client>());
             return NoContent();
         }
     }

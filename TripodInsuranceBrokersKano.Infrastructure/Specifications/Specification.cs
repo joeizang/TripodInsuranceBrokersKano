@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using TripodInsuranceBrokersKano.DomainModels.Abstractions;
@@ -19,10 +20,10 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Specifications
         }
 
 
-        public List<Expression<Func<T, bool>>> Predicates { get; set; }
-        public List<Expression<Func<T, object>>> SortOrder { get; set; }
-        public List<Expression<Func<T, object>>> Includes { get; set; }
-        public int Skip { get; set; }
-        public int Take { get; set; }
+        public virtual List<Expression<Func<T, bool>>> Predicates { get; set; }
+        public virtual List<Expression<Func<T, object>>> SortOrder { get; set; }
+        public virtual List<Expression<Func<T, object>>> Includes { get; set; }
+        public virtual int Skip { get; set; }
+        public virtual int Take { get; set; }
     }
 }

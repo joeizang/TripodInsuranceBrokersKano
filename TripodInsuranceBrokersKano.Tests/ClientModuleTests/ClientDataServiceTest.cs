@@ -61,14 +61,10 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
 
             Mapper = TestStartup.CreateMapper(Config);
 
-            //var datasrv = new Mock<ClientDataService>(Repo.Object, Mapper, Cspec);
+            
+            var datasrv = new ClientDataService(Repo.Object, Mapper);
 
-            //datasrv.Setup(d => d.CreateClient(apimodel,
-            //    http.Object.HttpContext.User.Identity.Name))
-            //    .Throws<DuplicateRecordException>();
-            var datasrv = new ClientDataService(Repo.Object, Mapper, Cspec);
-
-            datasrv.CreateClient(apimodel, http.Object.HttpContext.User.Identity.Name);
+            datasrv.Create(apimodel, http.Object.HttpContext.User.Identity.Name);
 
             Repo.VerifyAll();
             //datasrv.Verify(x => x.CreateClient(apimodel, http.Object.HttpContext.User.Identity.Name));
@@ -94,9 +90,9 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
 
             Mapper = TestStartup.CreateMapper(Config);
 
-            var datasrv = new ClientDataService(Repo.Object, Mapper, Cspec);
+            var datasrv = new ClientDataService(Repo.Object, Mapper);
 
-            datasrv.UpdateClient(apimodel, http.Object.HttpContext.User.Identity.Name);
+            datasrv.Update(apimodel, Cspec);
 
             Repo.VerifyAll();
         }
@@ -114,20 +110,28 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
                 .RuleFor(c => c.ClientAddress, f => new Address())
                 .RuleFor(c => c.OtherAddress, f => new Address()).Generate();
 
+            var client = new Faker<Client>()
+               .RuleFor(c => c.Id, 1)
+               .RuleFor(c => c.Name, f => f.Company.CompanyName())
+               .RuleFor(c => c.ContactPerson, f => f.Person.FullName)
+               .RuleFor(c => c.Description, f => f.Lorem.Sentences())
+               .RuleFor(c => c.EmailAddress, f => f.Internet.Email())
+               .RuleFor(c => c.ClientAddress, f => new Address())
+               .RuleFor(c => c.OtherAddress, f => new Address()).Generate();
+
             var mapper = new Mock<IMapper>();
 
             mapper.Setup(x => x
-            .Map<Client, DetailClientApiModel>(
-                It.IsAny<Client>()))
+            .Map<Client, DetailClientApiModel>(client))
             .Returns(apimodel);
 
-            Repo.Setup(x => x.Get(Cspec)).Returns(It.IsAny<Client>());
+            Repo.Setup(x => x.Get(Cspec)).Returns(client);
 
             Mapper = TestStartup.CreateMapper(Config);
 
-            var service = new ClientDataService(Repo.Object, mapper.Object, Cspec);
+            var service = new ClientDataService(Repo.Object, mapper.Object);
 
-            var result = service.DetailClient(1);
+            var result = service.GetById<DetailClientApiModel>(1,Cspec);
 
             Assert.IsType<DetailClientApiModel>(result);
         }
@@ -149,8 +153,8 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
 
             Repo.Setup(c => c.Query(spec)).Returns(new List<Client>().AsQueryable());
 
-            var sut = new ClientDataService(Repo.Object, Mapper, spec);
-            var result = sut.VerifyNoDuplicateClient(apimodel);
+            var sut = new ClientDataService(Repo.Object, Mapper);
+            var result = sut.CheckForDuplicate(apimodel);
 
             Assert.True(result);
         }
@@ -179,8 +183,8 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
 
             Repo.Setup(c => c.Query(spec)).Returns(clients.AsQueryable());
 
-            var sut = new ClientDataService(Repo.Object, Mapper, spec);
-            var result = sut.VerifyNoDuplicateClient(apimodel);
+            var sut = new ClientDataService(Repo.Object, Mapper);
+            var result = sut.CheckForDuplicate(apimodel);
 
             Assert.False(result);
         }
@@ -209,16 +213,16 @@ namespace TripodInsuranceBrokersKano.Tests.ClientModuleTests
             var mapper = new Mock<IMapper>();
 
             mapper.Setup(x => x
-            .Map<List<DetailClientApiModel>>(It.IsAny<List<Client>>()))
-            .Returns(It.IsAny<List<DetailClientApiModel>>);
+            .Map<List<DetailClientApiModel>>(clients))
+            .Returns(apimodel);
 
-            Repo.Setup(x => x.GetAll(Cspec)).Returns(It.IsAny<List<Client>>);
+            Repo.Setup(x => x.GetAll(Cspec)).Returns(clients);
 
-            var service = new ClientDataService(Repo.Object, mapper.Object, Cspec);
+            var service = new ClientDataService(Repo.Object, mapper.Object);
 
-            var result = service.GetAllClients();
+            var result = service.GetAll<DetailClientApiModel>(Cspec);
 
-            Assert.IsType<DetailClientApiModel>(result);
+            Assert.IsType<List<DetailClientApiModel>>(result);
         }
     }
 }

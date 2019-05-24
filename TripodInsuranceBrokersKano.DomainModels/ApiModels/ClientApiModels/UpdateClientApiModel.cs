@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TripodInsuranceBrokersKano.DomainModels.Abstractions;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 
 namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels
 {
-    public class UpdateClientApiModel
+    public class UpdateClientApiModel : IApiModel
     {
         public string Name { get; set; }
 

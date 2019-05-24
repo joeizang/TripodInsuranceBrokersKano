@@ -12,7 +12,7 @@ namespace TripodInsuranceBrokersKano.Api.Extensions
 
         public static void ConfigureAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper();
+            
         }
 
     }

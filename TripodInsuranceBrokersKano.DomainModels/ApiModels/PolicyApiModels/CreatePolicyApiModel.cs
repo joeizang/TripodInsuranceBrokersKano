@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TripodInsuranceBrokersKano.DomainModels.Abstractions;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.ClientApiModels;
 using TripodInsuranceBrokersKano.DomainModels.ApiModels.InsurerApiModels;
 
 namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.PolicyApiModels
 {
-    public class CreatePolicyApiModel
+    public class CreatePolicyApiModel : IApiModel
     {
         public string InsurerPolicyNumber { get; set; }
 
