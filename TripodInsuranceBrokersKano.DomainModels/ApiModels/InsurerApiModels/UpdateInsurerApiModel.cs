@@ -6,7 +6,7 @@ using TripodInsuranceBrokersKano.DomainModels.Entities;
 
 namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.InsurerApiModels
 {
-    public class DetailInsurerApiModel : IApiModel
+    public class UpdateInsurerApiModel : IApiModel
     {
         public string InsurerName { get; set; }
 
@@ -15,6 +15,9 @@ namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.InsurerApiModels
         public string ContactPerson { get; set; }
 
         public string EmailAddress { get; set; }
+
         public PhoneNumbers PhoneNumbers { get; set; }
+
+        public int Id { get; set; }
     }
 }

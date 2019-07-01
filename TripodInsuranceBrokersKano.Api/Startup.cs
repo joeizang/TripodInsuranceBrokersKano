@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System.Reflection;
 using TripodInsuranceBrokersKano.DomainModels.Entities;
 using TripodInsuranceBrokersKano.Infrastructure.Abstractions;
+using TripodInsuranceBrokersKano.Infrastructure.AutoMapperProfiles;
 using TripodInsuranceBrokersKano.Infrastructure.Context;
 using TripodInsuranceBrokersKano.Infrastructure.DataService;
 using TripodInsuranceBrokersKano.Infrastructure.Repository;
 using TripodInsuranceBrokersKano.Infrastructure.Services;
-using TripodInsuranceBrokersKano.Infrastructure.Specifications.ClientSpecs;
+using TripodInsuranceBrokersKano.Infrastructure.Specifications;
 
 namespace TripodInsuranceBrokersKano.Api
 {
@@ -43,6 +39,8 @@ namespace TripodInsuranceBrokersKano.Api
                 {
                     options.Authority = "https://localhost:44393/";
                     options.ApiName = "tripodinsurancebrokersapi";
+
+                    
                 });
 
             services.AddDbContext<TripodContext>(options =>
@@ -50,11 +48,15 @@ namespace TripodInsuranceBrokersKano.Api
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(ClientMapperProfile), typeof(InsurerMapperProfile), typeof(PolicyMapperProfile));
             services.AddScoped<IRepository<Client>, GenericRepository<Client>>();
+            services.AddScoped<IRepository<Insurer>, GenericRepository<Insurer>>();
             services.AddScoped<ClientDataService>();
-            services.AddTransient<ISpecification<Client>, ClientSpec>();
+            services.AddScoped<InsurerDataService>();
+            services.AddTransient<ISpecification<Client>,Specification<Client>>();
+            services.AddTransient<ISpecification<Insurer>,Specification<Insurer>>();
             services.AddTransient<UserResolverService>();
+            services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

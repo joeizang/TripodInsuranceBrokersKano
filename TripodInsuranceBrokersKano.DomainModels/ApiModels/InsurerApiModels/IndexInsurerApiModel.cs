@@ -6,7 +6,7 @@ using TripodInsuranceBrokersKano.DomainModels.Entities;
 
 namespace TripodInsuranceBrokersKano.DomainModels.ApiModels.InsurerApiModels
 {
-    public class DetailInsurerApiModel : IApiModel
+    public class IndexInsurerApiModel : IApiModel
     {
         public string InsurerName { get; set; }
 

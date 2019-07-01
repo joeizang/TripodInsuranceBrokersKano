@@ -43,7 +43,7 @@ namespace TripodInsuranceBrokersKano.IDP
 
             services.AddIdentityServer()
                 //because we are in development, we need developerSigninCertificate
-                .AddDeveloperSigningCredential(true, filename: @"c:\users\joe\tempkeys.rsa")
+                .AddDeveloperSigningCredential(true, filename: @"c:\users\Joseph\tempkeys.rsa")
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())

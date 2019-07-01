@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TripodInsuranceBrokersKano.Infrastructure.Context;
@@ -9,14 +10,15 @@ using TripodInsuranceBrokersKano.Infrastructure.Context;
 namespace TripodInsuranceBrokersKano.Infrastructure.Migrations
 {
     [DbContext(typeof(TripodContext))]
-    partial class TripodContextModelSnapshot : ModelSnapshot
+    [Migration("20190316042443_UpdatesToModel")]
+    partial class UpdatesToModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -559,12 +561,6 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Migrations
                         {
                             b1.Property<int>("ClientId");
 
-                            b1.Property<string>("BuildingNumber");
-
-                            b1.Property<string>("CloseLandMarks");
-
-                            b1.Property<string>("StreetName");
-
                             b1.HasKey("ClientId");
 
                             b1.ToTable("Clients");
@@ -578,12 +574,6 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Migrations
                     b.OwnsOne("TripodInsuranceBrokersKano.DomainModels.Entities.Address", "OtherAddress", b1 =>
                         {
                             b1.Property<int>("ClientId");
-
-                            b1.Property<string>("BuildingNumber");
-
-                            b1.Property<string>("CloseLandMarks");
-
-                            b1.Property<string>("StreetName");
 
                             b1.HasKey("ClientId");
 
@@ -658,12 +648,6 @@ namespace TripodInsuranceBrokersKano.Infrastructure.Migrations
                     b.OwnsOne("TripodInsuranceBrokersKano.DomainModels.Entities.Address", "Address", b1 =>
                         {
                             b1.Property<int>("InsurerId");
-
-                            b1.Property<string>("BuildingNumber");
-
-                            b1.Property<string>("CloseLandMarks");
-
-                            b1.Property<string>("StreetName");
 
                             b1.HasKey("InsurerId");
 
